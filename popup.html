@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WebKiosk Setup</title>
+    <style>
+      body { font-family: Arial; width: 300px; padding: 12px; position: relative; }
+      label { display:block; margin-top:8px; font-size:13px; }
+      input[type=text], input[type=password] {
+        width:100%; padding:6px; font-size:14px; box-sizing:border-box;
+      }
+      button { margin-top:12px; padding:8px 10px; }
+      
+      #toggleContainer {
+        position:absolute;
+        top:8px;
+        right:8px;
+        font-size:12px;
+        display:flex;
+        gap:4px;
+        align-items:center;
+        opacity:0.75;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="toggleContainer">
+      <label for="autoLoginToggle">Auto</label>
+      <input type="checkbox" id="autoLoginToggle" style="margin:0;">
+    </div>
+
+    <h3>WebKiosk — Save Credentials</h3>
+
+    <label for="enroll">Enrollment No</label>
+    <input id="enroll" type="text">
+
+    <label for="password">Password / PIN</label>
+    <input id="password" type="password">
+
+    <div style="display:flex; gap:8px;">
+      <button id="saveBtn">Save</button>
+      <button id="clearBtn">Clear Stored</button>
+    </div>
+
+    <div id="msg"></div>
+
+    <script src="crypto.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Thapar WebKiosk Auto Login (Secure)",
+  "version": "1.1",
+  "description": "Encrypts and stores WebKiosk credentials and auto-logs in on webkiosk.thapar.edu.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://webkiosk.thapar.edu/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Thapar WebKiosk — Setup"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://webkiosk.thapar.edu/*"],
+      "js": ["crypto.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
