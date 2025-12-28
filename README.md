@@ -1,40 +1,67 @@
-# 🔐 Thapar WebKiosk Secure Auto-Login (Chrome Extension)
+# 🚀 Better WebKiosk (Chrome Extension)
 
-A lightweight, secure Chrome extension that **automatically logs you into the Thapar WebKiosk** using encrypted credentials (AES-GCM).  
-Your password never leaves your browser — everything is stored locally and encrypted.
+A secure, student-friendly Chrome extension for **Thapar WebKiosk** that provides:
 
-<img width="342" height="234" alt="image" src="https://github.com/user-attachments/assets/00dbbb1b-74ad-4336-a4c0-71fd7f26d82b" />
+* 🔐 **Encrypted Auto-Login**
+* 📊 **Smart Subject-wise Marks Summary** (pass status, required marks, totals)
+
+Everything runs **locally in your browser** — no servers, no tracking, no nonsense.
 
 ---
 
 ## ✨ Features
 
-- 🔒 **AES-256-GCM encryption** for stored credentials  
-- 🧬 **PBKDF2 key derivation** using enrollment number  
-- ⚡ **Auto-Login** toggle (ON/OFF anytime)  
-- 🔐 Credentials stored only in **Chrome local storage**  
-- 🚫 No external servers, no data collection  
-- 🪶 Minimal UI, small toggle in the popup  
-- 🧠 Fully open-source & customizable  
+### 🔐 Secure Auto-Login
+
+* AES-256-GCM encrypted credential storage
+* PBKDF2 key derivation using Enrollment Number
+* Auto-login toggle (ON / OFF anytime)
+* Credentials stored **only in Chrome local storage**
+
+### 📊 Subject-wise Marks Analyzer (NEW)
+
+* Aggregates **Effective Marks** per subject
+* Shows:
+
+  * **To Pass** (PASS or marks required)
+  * **Total Scored**
+  * **Total Weightage**
+* Subjects automatically **sorted by importance**
+
+  * Higher total weightage first
+  * Then higher marks scored
+* Passed subjects highlighted **green**
+* Works even if:
+
+  * Subjects are unsorted
+  * New events are added
+  * Weightage ≠ 100
+
+> All calculations are done directly from the WebKiosk marks table — no hardcoding.
 
 ---
 
-## 📦 Installation (No Chrome Web Store Needed)
+## 🖼️ Preview
 
-Since this extension is not published on the Chrome Store, you will install it manually.
+*(Auto-login popup + marks summary appear directly on WebKiosk)*
 
-### **1️⃣ Download the Extension**
-Click the green **Code → Download ZIP** button on this GitHub repo  
-or  
-Clone the repo:
+<img width="342" height="234" alt="image" src="https://github.com/user-attachments/assets/00dbbb1b-74ad-4336-a4c0-71fd7f26d82b" />
+
+---
+
+## 📦 Installation (Manual)
+
+This extension is **not published on the Chrome Web Store**.
+
+### 1️⃣ Download
 
 ```bash
-git clone https://github.com/ishan-xy/webkiosk-autologin.git
-````
+git clone https://github.com/ishan-xy/better-webkiosk.git
+```
 
-Extract the ZIP.
+Or download ZIP → extract.
 
-You should now have a folder containing:
+Folder should contain:
 
 ```
 manifest.json
@@ -42,90 +69,106 @@ popup.html
 popup.js
 content.js
 crypto.js
-icons/ (optional)
 ```
 
 ---
 
-### **2️⃣ Load Extension in Chrome**
+### 2️⃣ Load in Chrome
 
-1. Open **Chrome**
+1. Open Chrome
 2. Go to:
 
-```
-chrome://extensions/
-```
-
-3. Enable **Developer mode** (top-right)
+   ```
+   chrome://extensions/
+   ```
+3. Enable **Developer mode**
 4. Click **Load unpacked**
-5. Select the folder you downloaded
+5. Select the project folder
 
-The extension will now appear in your toolbar.
+Pin the extension for easy access.
 
 ---
 
-## 🔧 Setup Instructions
+## 🔧 Setup
 
-1. Click the extension icon (puzzle piece → pin it for easier access)
-2. Open the extension popup
-3. Enter:
+1. Open the extension popup
+2. Enter:
 
    * **Enrollment Number**
    * **Password / PIN**
-4. Click **Save**
-5. (Optional) Toggle **Auto-Login ON** using the small switch on the top-right
+3. Click **Save**
+4. Toggle **Auto-Login ON** (optional)
 
-   * 🔵 ON → Automatically fills & submits WebKiosk login
-   * ⚪ OFF → Keeps credentials saved but does not auto-login
+* 🔵 ON → WebKiosk logs in automatically
+* ⚪ OFF → Credentials stay saved, no auto-login
+
+---
+
+## 📊 Marks Summary – How It Works
+
+When you open:
+
+```
+Examination → View Student Subject Marks (Eventwise)
+```
+
+The extension:
+
+1. Reads the marks table inside WebKiosk iframe
+2. Groups events by **Subject Code**
+3. Calculates:
+
+   * Total Effective Marks
+   * Total Weightage
+4. Computes:
+
+   * **To Pass** = `35 − total scored`
+5. Displays a clean summary **below the table**
+
+### Sorting Logic
+
+1. Higher **Total Weightage**
+2. Higher **Total Scored**
+
+No percentages, no assumptions.
 
 ---
 
 ## 🔐 Security Details
 
-* Your password is encrypted using **AES-256-GCM**
-* Key is derived from your Enrollment No using **PBKDF2 (150k iterations, SHA-256)**
-* All data stored locally using `chrome.storage.local`
-* No analytics, no tracking, no network requests
-* Your credentials never leave your machine
+* AES-256-GCM encryption
+* PBKDF2 (150,000 iterations, SHA-256)
+* Enrollment number used as key material
+* Data stored only via `chrome.storage.local`
+* No network requests
+* No analytics, tracking, or logging
 
 ---
 
 ## 🧩 File Structure
 
 ```
-📁 extension/
- ├── manifest.json        # Chrome extension config
- ├── popup.html           # UI for saving credentials
- ├── popup.js             # Saves encrypted credentials & toggle state
- ├── content.js           # Auto-login logic injected into WebKiosk
- ├── crypto.js            # AES-GCM encryption/decryption helpers
+📁 Better-webkiosk/
+ ├── manifest.json        # Extension config (iframe support enabled)
+ ├── popup.html           # UI for credentials & toggle
+ ├── popup.js             # Save / clear credentials
+ ├── content.js           # Auto-login + marks summary logic
+ ├── crypto.js            # Encryption helpers
 ```
-
----
-
-## 🚀 How Auto-Login Works
-
-When you visit:
-
-```
-https://webkiosk.thapar.edu/index.jsp
-```
-
-The extension:
-
-1. Checks if Auto-Login is turned ON
-2. Decrypts your saved password
-3. Fills:
-
-   * User Type → Student (S)
-   * Enrollment Number
-   * Password
-4. Automatically submits the form
-
-If the toggle is OFF → nothing happens, normal login page works as usual.
 
 ---
 
 ## 📄 License
 
-This project is open-source and available under the MIT License.
+MIT License — free to use, modify, and improve.
+
+---
+
+If you want, next I can:
+
+* tighten wording further for **GitHub stars**
+* add a **Features GIF**
+* write a **short repo description**
+* add a **Security.md**
+
+Just tell me.
