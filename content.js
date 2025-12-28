@@ -39,42 +39,47 @@
     );
   }
 
-  function parseMarksTable() {
+function parseMarksTable() {
 
-    const table = document.getElementById("table-1");
-    if (!table) return;
+  if (window === window.top) return;
 
-    const rows = table.querySelectorAll("tbody tr");
-    if (!rows.length) return;
+  const table = document.getElementById("table-1");
+  if (!table) return;
 
-    const subjects = {};
+  const rows = table.querySelectorAll("tbody tr");
+  if (!rows.length) return;
 
-    rows.forEach(row => {
-      const cells = row.querySelectorAll("td");
-      if (cells.length < 9) return;
+  const subjects = {};
 
-      const subjectText = cells[2].innerText.trim();
-      const match = subjectText.match(/\(([^)]+)\)/);
-      if (!match) return;
+  rows.forEach(row => {
+    const cells = row.querySelectorAll("td");
+    if (cells.length < 9) return;
 
-      const subjectCode = match[1]; // UML501
-      const weightage   = parseFloat(cells[6].innerText.trim()) || 0;
-      const effective   = parseFloat(cells[7].innerText.trim()) || 0;
+    const subjectText = cells[2].innerText.trim();
+    const match = subjectText.match(/\(([^)]+)\)/);
+    if (!match) return;
 
-      if (!subjects[subjectCode]) {
-        subjects[subjectCode] = {
-          name: subjectText,
-          totalEffective: 0,
-          totalWeightage: 0
-        };
-      }
+    const subjectCode = match[1];
+    const weightage   = parseFloat(cells[6].innerText.trim()) || 0;
+    const effective   = parseFloat(cells[7].innerText.trim()) || 0;
 
-      subjects[subjectCode].totalEffective += effective;
-      subjects[subjectCode].totalWeightage += weightage;
-    });
+    if (!subjects[subjectCode]) {
+      subjects[subjectCode] = {
+        name: subjectText,
+        totalEffective: 0,
+        totalWeightage: 0
+      };
+    }
 
-    injectSummary(subjects);
-  }
+    subjects[subjectCode].totalEffective += effective;
+    subjects[subjectCode].totalWeightage += weightage;
+  });
+
+  if (Object.keys(subjects).length === 0) return;
+
+  injectSummary(subjects);
+}
+
 
 function injectSummary(subjects) {
 
