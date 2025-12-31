@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Thapar WebKiosk Auto Login (Secure)",
+  "name": "Better WebKiosk (TIET)",
   "version": "1.0",
-  "description": "Encrypts and stores WebKiosk credentials and auto-logs in on webkiosk.thapar.edu.",
+  "description": "Secure auto-login for Thapar WebKiosk with encrypted credential storage and a local subject-wise marks summary.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://webkiosk.thapar.edu/*"
