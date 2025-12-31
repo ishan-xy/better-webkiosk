@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Better WebKiosk (TIET)",
+  "name": "BetterWebKiosk (TIET)",
   "version": "1.0",
   "description": "Secure auto-login for Thapar WebKiosk with encrypted credential storage and a local subject-wise marks summary.",
   "permissions": ["storage"],
